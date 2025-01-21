@@ -26,11 +26,33 @@ class ViewController: UIViewController {
     
 
     @IBAction func threeItemsButtonAction(_ sender: Any) {
-        getDataFromLink(link: .threeItems)
+        //getDataFromLink(link: .threeItems)
+        fetchData(urlString: .threeItems, type: [Device].self) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let success):
+                    self.devices = success
+                    self.tableView.reloadData()
+                case .failure(let failure):
+                    print(failure)
+                }
+            }
+        }
     }
     
     @IBAction func OneItemButtonAction(_ sender: Any) {
-        getDataOneItem(link: .oneItem)
+        //getDataOneItem(link: .oneItem)
+        fetchData(urlString: .oneItem, type: Device.self) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let success):
+                    self.devices.append(success)
+                    self.tableView.reloadData()
+                case .failure(let failure):
+                    print(failure)
+                }
+            }
+        }
     }
     
     func getDataFromLink(link: ConstantLink) {
